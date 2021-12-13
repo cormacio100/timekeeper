@@ -1,0 +1,16 @@
+{% extends "base.html" %} 
+{% block title %} Home Page {% endblock %}
+{% block content %}
+
+
+
+<p>TK_USERS general_user  Page</p>
+
+<p>
+<a href="{% url 'tk_users:admin_user' %}" class="link-secondary">Admin Users</a>
+<a href="{% url 'tk_users:general_user' %}" class="link-success">General Users</a>
+</p>
+
+
+
+{% endblock %}
