@@ -1,0 +1,12 @@
+{% extends "base.html" %} 
+{% block title %} Admin Page {% endblock %}
+{% block content %}
+
+
+<div class="container">
+    <h1 class="display-4"><a href="{% url 'tk_users:admin_user' %}">Admin Tasks</a></h1>
+    {% block admin_content %}
+    {% endblock %}
+</div>
+
+{% endblock %}

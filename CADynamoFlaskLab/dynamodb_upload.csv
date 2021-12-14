@@ -1,0 +1,6 @@
+name,id,email,account_status,first_name,last_name,s3_bucket_name,s3_profile_image
+'1a71aa3e-3a2e-43e2-bb43-3cdee3ceff0b',8393280243558150661,'x21154945@student.ncirl.ie','CONFIRMED','Cormac',Liston,'',''
+'3fd7a2c4-5229-45e0-b43c-31e610243512',838729063564096008,'cormac.liston@outlook.com','FORCE_CHANGE_PASSWORD','Michael',Liston,'',''
+'8e04fe29-298d-4079-b8d4-dfe815a4639b',838729071109912068,'cormac.music@gmail.com','UNCONFIRMED','Sean','Liston','',''
+'b4e7c2aa-0e26-49b5-9566-36eb7cab38c8',8393281164223627782,'cormac.liston@gmail.com','CONFIRMED','Donncha','Liston','',''
+'ddf20cf3-a017-4f9a-9ef8-ab03f7ac2f04',8393281214024619015,'luhvenechenique@gmail.com','CONFIRMED','Luhven','Liston','',''

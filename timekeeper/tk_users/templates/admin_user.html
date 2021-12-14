@@ -1,17 +1,12 @@
-{% extends "base.html" %} 
-{% block title %} Home Page {% endblock %}
-{% block content %}
+{% extends "admin_base.html" %} 
 
-
-<div class="container">
-    <h1 class="display-4">Admin Tasks</h1>
+    {% block admin_content %}
     <div class="list-group">
-      <a href="{% url 'tk_users:admin_cognito_users' %}" class="list-group-item list-group-item-action">Add/Edit/Delete Cognito Users</a>
-      <a href="#" class="list-group-item list-group-item-action">Add/Edit/Delete Client Projects</a>
-      <a href="#" class="list-group-item list-group-item-action">Approve Expenses</a>
-      <a href="#" class="list-group-item list-group-item-action">Approve Holidaysc</a>
+      <a href="{% url 'tk_users:admin_cognito_user_list' %}" class="list-group-item list-group-item-action">Users</a>
+      <a href="#" class="list-group-item list-group-item-action">Client and Projects</a>
+      <a href="#" class="list-group-item list-group-item-action">Expenses</a>
+      <a href="#" class="list-group-item list-group-item-action">Holidaysc</a>
     </div>
+    {% endblock %}
 
-</div>
 
-{% endblock %}
