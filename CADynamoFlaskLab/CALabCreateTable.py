@@ -19,6 +19,7 @@ class DynamoDBLab:
         randomid = random.randint(0,10)
         return (ts*512)+randomid
         
+        
     #   Create the DynamoDB table as referenced by table_name and other variables passed in
     def create_lab_table(self, table_name, key_schema, attribute_definitions, region):
         try:
@@ -73,7 +74,7 @@ def main():
     region = 'us-east-1'
     d = DynamoDBLab()
     
-    table_name = "CPP_ProjectTest"
+    table_name = "CPP_ProjectTest2"
     
     key_schema = [
         {
@@ -132,7 +133,9 @@ def main():
                         print('last_name = '+last_name)
                         print('s3_bucket_name = '+s3_bucket_name)
                         print('s3_profile_image = '+s3_profile_image)
-                        
+                        print('region = '+region)
+                        print('table_name = '+table_name)
+
                         
                         try:
                             upload_response = d.put_item(region, table_name, metadata_item)

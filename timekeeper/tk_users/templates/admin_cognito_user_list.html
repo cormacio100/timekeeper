@@ -4,11 +4,11 @@
 
 
 <div class="container">
-    <a href="{% url 'tk_users:admin_user' %}">Back</a>
-    <h1 class="display-4">System Users</h1>
+    <div>
+      <h1 class="display-4">{{heading}}</h1>
+    </div>
+    <a href="{% url 'tk_users:admin_user' %}">Go Back</a> | <a href="{% url 'tk_users:admin_cognito_user_add' %}">Create User</a>
     <hr>
-    
-  
     <div id="COGNITO-data" class="card-deck row">
 
     {% for cognito_user in cognito_users %}
@@ -16,10 +16,15 @@
         <div class="col-lg-3 col-md-6 col-xs-12 margin-top-1">
           <a href="">
             <div class="card h-100">
-              <img class="card-img-top" src="" class="img-fluid center-block img-thumbnail" style="max-height:150px;" alt="" />
+              <div class="card-header">
+                <i class="fa fa-user-circle fa-5x fa-align-center" aria-hidden="true"></i>
+              </div>
               <div class="card-body">
                 <h4 class="card-title">{{cognito_user.email}}</h4>
-                <p class="card-text">{{cognito_user.username}}</p>
+                <ul>
+                  <li>username: {{cognito_user.username}}</li>
+                  <li>id: {{cognito_user.user_id}}</li>
+                </ul>
               </div>
             </div>
           </a>

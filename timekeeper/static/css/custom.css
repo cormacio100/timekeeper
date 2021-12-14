@@ -106,15 +106,12 @@ div#navbarSupportedContent {
 /************************************************************************/
 .grey-text{
     color:#bab4b0;
-    xmargin-right:1em;
 }
 .orange-text{
     color:#dd6622;
-    xmargin-right:1em;
 }
 .white-text{
     color:#ffffff;
-    xmargin-right:1em;
 }
 .brown-text{
     color:#7c6659;
@@ -187,8 +184,6 @@ div#navbarSupportedContent {
     text-decoration: none;
     background: #ffffff;
     padding: 10px 20px 10px 20px;
-    xborder: solid #bab4b0 2px;
-    xcolor: #bab4b0;
     box-shadow: 5px 5px 5px #bb6622;
 }
 
@@ -199,60 +194,13 @@ div#navbarSupportedContent {
 #pills-contact-tab.active{
     background-color: #dd6622;
 }
-/************************************************************************/
-/* CAROUSEL */
-/************************************************************************/
-.carouselled{
-    height: 400px;
-    width: 100%;
-    object-fit: cover; // here
-    -o-object-fit: cover;
-}
-.carousel{
-    -webkit-box-shadow: 2px 16px 151px -46px rgba(0,0,0,0.75);
-    -moz-box-shadow: 2px 16px 151px -46px rgba(0,0,0,0.75);
-    box-shadow: 2px 16px 151px -46px rgba(0,0,0,0.75);
-    interval:false;
-}
-.carousel-container{
-    margin-bottom:1em;
-}
-a.carousel-control-prev,
-a.carousel-control-next{
-    /*work around 1*/
-    xheight: 26%;
-    xtop: 43%;
-    xwidth: 86px;
-    xbackground: #bab4b0;
 
-    /*work around 2*/
-    /*change the margin to make the width and height more longer or shorter*/
-    margin: 100px 0;
-    /*change the radius to make the point of the squared-hover looks rounded*/
-    border-radius: 60px;
-}
-.right-side{
-   padding-bottom:0;
-    padding-top:0;
-    margin-bottom:0;
-    margin-top:0;
-}
-ol#carousel-links{
-    list-style: none; overflow: hidden; position: relative;
-}
-ol#carousel-links li{
-    float: left; margin: 0 20px 0 0;
-}
-.jump-to-links{
-    margin-right:2px;
-}
 /************************************************************************/
 /* FOOTER */
 /************************************************************************/
 footer{
     text-align:center;
     color: #dd6622;
-    xbackground-color: rgba(186,180,176, 0.7);
     padding:2em;
     margin-top:1em;
     position:relative;
@@ -298,8 +246,6 @@ td.tbl-like-dislike-td {
     padding: 0.5em;
 }
 .tab-pane{
-
-    xbackground-color:#ffffff;
     color: #7c6659;
 }
 .tab-contents {
@@ -333,10 +279,6 @@ div#info-tabs {
     border-radius: 5px;
 }
 .profile-highlight {
-    xbackground-color: #ffffff;
-    xbackground-color: rgba(255, 255, 255, 0.7);
-    xcolor: #7c6659;
-    xcolor: #ffffff;
     padding: 1em;
     border-radius: 10px;
 }
@@ -347,7 +289,7 @@ div#entertainer_bio{
     text-align:left;
 }
 /************************************************************************/
-/* ENTERTAINER LISTINGS*/
+/* LISTINGS*/
 /************************************************************************/
 p#spinner{
     width:100%;
@@ -360,11 +302,9 @@ p#spinner{
 /*section#section1*/
 
 .with-background-image1{
-    xbackground-image:url(../../pics/media/backgrounds/5.jpg);
 	position:relative;
 	width:100%;
 	text-align:center;
-	xcolor:white;
 	background-color:white;
 	background-size: cover;
 	background-position:center;
@@ -374,6 +314,11 @@ p#spinner{
 }
 .card{
     margin-top:1em;
+}
+.card-header{
+    display:flex;
+    justify-content:center;
+    text-align: center;
 }
 .card-body{
     color:#766659;
@@ -447,7 +392,6 @@ p#spinner{
 .styled-select{
     background: transparent;
     border: none;
-    xfont-size: 14px;
     height: 29px;
     padding: 5px; /* If you add too much padding here, the options won't show in IE */
     width: 80%;

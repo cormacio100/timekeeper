@@ -13,7 +13,8 @@ def general_user(request):
     return render(request,'general_user.html')
     
 def admin_user(request):
-    return render(request,'admin_user.html')
+    args = {'heading' : 'Admin Taks'}
+    return render(request,'admin_user.html',args)
     
 def admin_cognito_user_list(request):
     cognito_users = list ()
@@ -43,7 +44,7 @@ def admin_cognito_user_list(request):
     # Database is used to link the cognito profile against user details and S3 Buckets
     #   Then 
     for user in user_list_resp['Users']:
-        user_record = {'user_id':user_id, 'username': user['Username'], 'email': None}
+        user_record = {'user_id': user_id, 'username': user['Username'], 'email': None}
         
         for attr in user['Attributes']:
             if attr['Name'] == 'email':
@@ -52,9 +53,14 @@ def admin_cognito_user_list(request):
         cognito_users.append(user_record)
                 
         user_id += 1
-    args = {'cognito_users': cognito_users}
+    args = {'heading':'Cognito Users','cognito_users': cognito_users}
     #print(response)
  
     
     #return HttpResponse(cognito_users)
     return render(request,'admin_cognito_user_list.html',args)
+    
+    
+def admin_cognito_user_add(request):
+    args = {'heading' : 'Add User'}
+    return render(request,'admin_cognito_user_add.html',args)
