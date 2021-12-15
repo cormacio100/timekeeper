@@ -1,5 +1,4 @@
 from django.http import Http404
-#from django.core.urlresolvers import reverse
 from django.urls import reverse
 from django.shortcuts import render, redirect
 from django.shortcuts import HttpResponse
@@ -12,60 +11,48 @@ from django.shortcuts import redirect
 import logging
 import boto3 
 
-# Create your views here.
+# Welcome page for teh application
 def index(request):
     return render(request,'index.html')
-    
+
+#   GENERAL User Landing page
 def general_user(request):
     return render(request,'general_user.html')
     
+#   ADMIN User Landing page
 def admin_user(request):
-    args = {'heading' : 'Admin Taks'}
+    args = {'heading' : 'Admin Task'}
     return render(request,'admin_user.html',args)
-    
+   
+#   LISTING PAGE FOR COGNITO USERS
 def admin_cognito_user_list(request):
     cognito_users = list ()
     user_id = 0
     
     # retrieve the list of users 
     region = 'us-east-1'
-    #settings.REGION
-    client = boto3.client('cognito-idp', region_name=region)
+    UserPoolId='us-east-1_412rcjhr9'
     
-    user_list_resp = client.list_users(
-        UserPoolId='us-east-1_412rcjhr9',
-        AttributesToGet=[
-            'email',
-        ],
-    )
-    
-    #   SEE THIS EXAMPLE
-    #   https://gist.github.com/jpbarto/c484c923c365b3e391b8eb5029cbaebc
-    
-    
-        #    to do
-        #   Check Congito user against DYNAMODB
-        #   see Flask Project CADynamoFlaskLab app 
-    # iterate over the returned users and extract username and email
-    # For each record check if they are on the DynamoDB 
-    # if yes, proceed. If no then need to add
-    # Database is used to link the cognito profile against user details and S3 Buckets
-    #   Then 
+    #   create a dictionary to pass all of the arguments
+    args = {'region':region,'UserPoolId': UserPoolId}
+
+    #   create an object of the Cognito class to do lookups of Cognito
+    cognitoClient = Cognito()
+    user_list_resp = cognitoClient.list_users(args)
+
+    # iterate over the returned users and extract username and email and Status
     for user in user_list_resp['Users']:
-        user_record = {'user_id': user_id, 'username': user['Username'], 'email': None}
+        user_record = {'user_id': user_id, 'username': user['Username'], 'userstatus': user['UserStatus'], 'email': None}
         
         for attr in user['Attributes']:
             if attr['Name'] == 'email':
                 user_record['email'] = attr['Value']
                 
         cognito_users.append(user_record)
-                
         user_id += 1
+        
+    #   pass the values to the template
     args = {'heading':'Cognito Users','cognito_users': cognito_users}
-    #print(response)
- 
-    
-    #return HttpResponse(cognito_users)
     return render(request,'cognito_user/admin_cognito_user_list.html',args)
     
 #   FUNCTION Creates A Cognito User based on values entered in a form  
@@ -90,10 +77,9 @@ def admin_cognito_user_add(request):
             args = {'email':email,'password': password,'region':region,'cognitoClientID':cognitoClientID}
         
             cognitoClient = Cognito()
-            rsponse = cognitoClient.sign_up_user(args)
+            response = cognitoClient.sign_up_user(args)
             
-            #   reload the list of cognito users
-            #return redirect('tk_users.views.admin_cognito_user_list')
+            #   reload the UPDATED list of cognito users
             return redirect(reverse('tk_users:admin_cognito_user_list'))
     else:  
         form = AddCognitoUserForm()
@@ -111,19 +97,17 @@ def admin_cognito_user_add(request):
 class Cognito:
     
     #   List all the users on Cognito
-    def list_users(self,region):
-        client = boto3.client('cognito-idp', region_name=region)
+    def list_users(self,args):
+        client = boto3.client('cognito-idp', region_name=args['region'])
     
         response = client.list_users(
-            UserPoolId='us-east-1_412rcjhr9',
+            UserPoolId=args['UserPoolId'],
             AttributesToGet=[
                 'email',
             ],
         )
-        print(response)
-        print("----------------------------------------------------")
-        print(response['Users'])
-        'Users['
+
+        return(response)
         
         
     #   CREATE a new user on Cognito    

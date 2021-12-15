@@ -322,6 +322,7 @@ p#spinner{
 }
 .card-body{
     color:#766659;
+    font-size: smaller;
 }
 .card-img-top{
     height:140px;
@@ -329,7 +330,9 @@ p#spinner{
 .card-text{
     font-size: 0.8em;
 }
-
+card_attr{
+    text-decoration: underline;
+}
 /**************************************************************************/
 /*  HOME  */
 /**************************************************************************/
