@@ -1,5 +1,6 @@
 {% extends "base.html" %} 
 {% block title %} Home Page {% endblock %}
+
 {% block content %}
 
 
@@ -10,7 +11,16 @@
     <a href="{% url 'tk_users:admin_user' %}">Go Back</a> | <a href="{% url 'tk_users:admin_user' %}">Create User</a>
     <hr>
     <div id="COGNITO-data" class="card-deck row">
-      ADD
+      <div class="container">
+        <form action="{% url 'tk_users:admin_cognito_user_add' %}" method="POST">
+          {% csrf_token %}
+          {{ form }}
+          <hr>
+          <div class="form-group">
+              <button type="submit" class="btn btn-orange btn-block">Create</button>
+          </div>
+        </form>
+      </div>
     </div>
 </div>
 

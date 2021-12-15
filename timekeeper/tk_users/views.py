@@ -1,6 +1,9 @@
 from django.http import Http404
 from django.shortcuts import render
 from django.shortcuts import HttpResponse
+from django.template.context_processors import csrf
+from .forms import AddCognitoUserForm
+from django.http import HttpResponseRedirect
 
 import logging
 import boto3 
@@ -58,9 +61,28 @@ def admin_cognito_user_list(request):
  
     
     #return HttpResponse(cognito_users)
-    return render(request,'admin_cognito_user_list.html',args)
+    return render(request,'cognito_user/admin_cognito_user_list.html',args)
     
     
 def admin_cognito_user_add(request):
-    args = {'heading' : 'Add User'}
-    return render(request,'admin_cognito_user_add.html',args)
+    
+    #   Check if the request comes from the Congito Add User Form
+    if request.method == 'POST':
+        #   Create a form instance and populate it with the request data
+        form = AddCognitoUserForm(request.POST)
+        
+        #  Check if the form contents is valid
+        if form.is_valid():
+            
+            #   process the data
+            #   Upload User to COGNITO
+            return render(request,'cognito_user/admin_cognito_user_list.html')
+    else:  
+        form = AddCognitoUserForm()
+        
+        args = {'heading' : 'Add User', 'form': form}
+        args.update(csrf(request))
+
+    return render(request,'cognito_user/admin_cognito_user_add.html',args)
+
+    
