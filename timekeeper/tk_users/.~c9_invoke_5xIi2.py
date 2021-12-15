@@ -1,13 +1,9 @@
 from django.http import Http404
-#from django.core.urlresolvers import reverse
-from django.urls import reverse
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.shortcuts import HttpResponse
 from django.template.context_processors import csrf
 from .forms import AddCognitoUserForm
 from django.http import HttpResponseRedirect
-from django.conf import settings
-from django.shortcuts import redirect
 
 import logging
 import boto3 
@@ -29,7 +25,6 @@ def admin_cognito_user_list(request):
     
     # retrieve the list of users 
     region = 'us-east-1'
-    #settings.REGION
     client = boto3.client('cognito-idp', region_name=region)
     
     user_list_resp = client.list_users(
@@ -68,7 +63,7 @@ def admin_cognito_user_list(request):
     #return HttpResponse(cognito_users)
     return render(request,'cognito_user/admin_cognito_user_list.html',args)
     
-#   FUNCTION Creates A Cognito User based on values entered in a form  
+    
 def admin_cognito_user_add(request):
     
     #   Check if the request comes from the Congito Add User Form
@@ -84,17 +79,15 @@ def admin_cognito_user_add(request):
             email = request.POST['email']
             password = request.POST['password']
             region = 'us-east-1'
-            cognitoClientID = '2neea3tmqro25ir2ohamglv1be'
             
-            #   create a dictionary to pass all of the arguments
-            args = {'email':email,'password': password,'region':region,'cognitoClientID':cognitoClientID}
-        
+            
             cognitoClient = Cognito()
-            rsponse = cognitoClient.sign_up_user(args)
             
-            #   reload the list of cognito users
-            #return redirect('tk_users.views.admin_cognito_user_list')
-            return redirect(reverse('tk_users:admin_cognito_user_list'))
+            cognitoClient.sign_up_user(region)
+            
+            
+            
+            return render(request,'cognito_user/admin_cognito_user_list.html')
     else:  
         form = AddCognitoUserForm()
         
@@ -103,14 +96,7 @@ def admin_cognito_user_add(request):
 
     return render(request,'cognito_user/admin_cognito_user_add.html',args)
 
-
-
-'''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    COGNITO CLASS USED FOR INTERACTING WITH COGNITO
-'''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 class Cognito:
-    
-    #   List all the users on Cognito
     def list_users(self,region):
         client = boto3.client('cognito-idp', region_name=region)
     
@@ -125,26 +111,24 @@ class Cognito:
         print(response['Users'])
         'Users['
         
+    def sign_up_user(self,region):
+        client = boto3.client('cognito-idp', region_name=region)
+        cogn
         
-    #   CREATE a new user on Cognito    
-    def sign_up_user(self,args):
-        client = boto3.client('cognito-idp', region_name=args['region'])
-        
-        #args = {'email':email,'password': password,'region':region,'cognitoClientID':cognitoClientID}
         
         response = client.sign_up(
-            ClientId=args['cognitoClientID'],
-            Username=args['email'],
-            Password=args['password'],
+            ClientId='2neea3tmqro25ir2ohamglv1be',
+            Username='luhvenechenique@gmail.com',
+            Password='P@ssw0rd',
             UserAttributes=[
                 {
                     'Name': 'email',
-                    'Value': args['email']
+                    'Value': 'luhvenechenique@gmail.com'
                 },
             ],
 
         )
-        return(response)
+        print(response)
         
         
     def confirm_user(self,region):

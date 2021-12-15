@@ -44,6 +44,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
+    #Presentation
+    'django_forms_bootstrap',
+    
 ]
 
 MIDDLEWARE = [
@@ -137,3 +140,7 @@ STATICFILES_DIRS = (
 )
 
 #STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
+#COGNITOCLIENTID = '2neea3tmqro25ir2ohamglv1be'
+#REGION = 'us-east-1'
