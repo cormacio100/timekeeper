@@ -1,0 +1,27 @@
+{% extends "base.html" %} 
+{% block title %} Home Page {% endblock %}
+{% load bootstrap_tags %}
+{% block content %}
+
+
+<div class="container">
+    <div>
+      <h1 class="display-4">{{heading}}</h1>
+    </div>
+    <a href="{% url 'tk_users:admin_user' %}">Go Back</a>
+    <hr>
+    <div id="COGNITO-data" class="card-deck row">
+      <div class="container">
+        <form action="{% url 'tk_users:admin_cognito_user_add' %}" method="POST">
+          {% csrf_token %}
+          {{ form }}
+          <hr>
+          <div class="form-group">
+              <button type="submit" class="btn btn-orange btn-block">Create</button>
+          </div>
+        </form>
+      </div>
+    </div>
+</div>
+
+{% endblock %}
