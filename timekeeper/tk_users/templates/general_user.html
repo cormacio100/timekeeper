@@ -1,16 +1,17 @@
 {% extends "base.html" %} 
 {% block title %} Home Page {% endblock %}
+
 {% block content %}
-
-
-
-<p>TK_USERS general_user  Page</p>
-
-<p>
-<a href="{% url 'tk_users:admin_user' %}" class="link-secondary">Admin Users</a>
-<a href="{% url 'tk_users:general_user' %}" class="link-success">General Users</a>
-</p>
-
-
+    <div class="container">
+    <div>
+      <h1 class="display-4"><a href="{% url 'tk_users:general_user' %}">{{heading}}</a></h1>
+    </div>
+    &nbsp;
+    <hr>
+    <div class="general_user_container">
+        <div class="list-group">
+          <a href="{% url 'tk_users:general_user_upload_expenses' %}" class="list-group-item list-group-item-action">Upload Expenses &nbsp; <i class="fa fa-car fa-align-center" aria-hidden="true"></i> <i class="fa fa-subway fa-align-center" aria-hidden="true"></i> <i class="fa fa-plane fa-align-center" aria-hidden="true"></i> <i class="fa fa-cutlery" aria-hidden="true"></i></a>
+        </div>
+    </div>
 
 {% endblock %}

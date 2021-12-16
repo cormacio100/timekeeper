@@ -1,12 +1,10 @@
 {% extends "admin_base.html" %} 
 
-    {% block admin_content %}
-    <div class="list-group">
-      <a href="{% url 'tk_users:admin_cognito_user_list' %}" class="list-group-item list-group-item-action">Cognito Users</a>
-      <a href="{% url 'companies:admin_company_list' %}" class="list-group-item list-group-item-action">Clients</a>
-      <a href="#" class="list-group-item list-group-item-action">Expenses</a>
-      <a href="#" class="list-group-item list-group-item-action">Holidays</a>
-    </div>
-    {% endblock %}
+{% block admin_content %}
+<div class="list-group">
+  <a href="{% url 'tk_users:admin_cognito_user_list' %}" class="list-group-item list-group-item-action">Cognito Users <i class="fa fa-user-circle fa-align-center" aria-hidden="true"></i></a>
+  <a href="{% url 'companies:admin_company_list' %}" class="list-group-item list-group-item-action">Clients <i class="fa fa-address-card fa-align-center" aria-hidden="true"></i></a>
+</div>
+{% endblock %}
 
 

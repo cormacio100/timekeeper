@@ -5,11 +5,11 @@
 
 <div class="container">
     <div>
-      <h1 class="display-4"><a href="{% url 'tk_users:admin_user' %}">{{heading}}</a></h1>
+      <h1 class="display-4"><a href="{% url 'tk_users:general_user' %}">{{heading}}</a></h1>
     </div>
     &nbsp;
     <hr>
-    {% block admin_content %}
+    {% block general_content %}
     {% endblock %}
 </div>
 

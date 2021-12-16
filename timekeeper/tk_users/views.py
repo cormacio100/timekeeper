@@ -17,7 +17,13 @@ def index(request):
 
 #   GENERAL User Landing page
 def general_user(request):
-    return render(request,'general_user.html')
+    args = {'heading' : 'General User Task'}
+    return render(request,'general_user.html',args)
+    
+def general_user_upload_expenses(request):
+    args = {'heading' : 'Upload Expenses'}
+    return render(request,'general_user_upload_expenses.html',args)
+    
     
 #   ADMIN User Landing page
 def admin_user(request):
@@ -55,6 +61,7 @@ def admin_cognito_user_list(request):
     args = {'heading':'Cognito Users','cognito_users': cognito_users}
     return render(request,'cognito_user/admin_cognito_user_list.html',args)
     
+    
 #   FUNCTION Creates A Cognito User based on values entered in a form  
 def admin_cognito_user_add(request):
     
@@ -89,9 +96,7 @@ def admin_cognito_user_add(request):
 
         return render(request,'cognito_user/admin_cognito_user_add.html',args)
 
-def admin_cognito_user_error(request):
-    args = {'heading' : 'Upload Error'}
-    return render(request,'cognito_user/admin_cognito_user_error.html',args)
+
 
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     COGNITO CLASS USED FOR INTERACTING WITH COGNITO
