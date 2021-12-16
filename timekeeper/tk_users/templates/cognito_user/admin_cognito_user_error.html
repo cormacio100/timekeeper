@@ -1,0 +1,21 @@
+{% extends "base.html" %} 
+{% block title %} Home Page {% endblock %}
+{% block content %}
+
+
+<div class="container">
+    <div>
+      <h1 class="display-4">{{heading}}</h1>
+    </div>
+    <a href="{% url 'tk_users:admin_user' %}">Go Back</a> | <a href="{% url 'tk_users:admin_cognito_user_add' %}">Create User</a>
+    <hr>
+    <div id="COGNITO-data" class="card-deck row">
+
+      <p>An error Occurred in uploading to COGNITO. Please try again</p>
+
+   </div>
+  
+  
+</div>
+
+{% endblock %}

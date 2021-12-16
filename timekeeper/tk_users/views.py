@@ -87,9 +87,11 @@ def admin_cognito_user_add(request):
         args = {'heading' : 'Add User', 'form': form}
         args.update(csrf(request))
 
-    return render(request,'cognito_user/admin_cognito_user_add.html',args)
+        return render(request,'cognito_user/admin_cognito_user_add.html',args)
 
-
+def admin_cognito_user_error(request):
+    args = {'heading' : 'Upload Error'}
+    return render(request,'cognito_user/admin_cognito_user_error.html',args)
 
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     COGNITO CLASS USED FOR INTERACTING WITH COGNITO

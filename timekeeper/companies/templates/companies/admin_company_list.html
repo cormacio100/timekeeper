@@ -8,6 +8,25 @@
     <a href="{% url 'tk_users:admin_user' %}">Go Back</a> | <a href="{% url 'companies:admin_company_add' %}">Create Client</a>
     <hr>
     <div id="COGNITO-data" class="card-deck row">
+      {% for dynamo_db_client in dynamo_db_clients %}
+          <div class="col-lg-3 col-md-6 col-xs-12 margin-top-1">
+            <a href="">
+              <div class="card h-100">
+                <div class="card-header">
+                  <i class="fa fa-address-card fa-5x fa-align-center" aria-hidden="true"></i>
+                </div>
+                <div class="card-body">
+                  <h4 class="card-title">{{dynamo_db_client.company_name}}</h4>
+                  <ul>
+                    <li><span class="card_attr">INDUSTRY: </span>{{dynamo_db_client.industry}}</li>
+                    <li><span class="card_attr">EIRCODE: </span>{{dynamo_db_client.eircode}}</li>
+                  </ul>
+                </div>
+              </div>
+            </a>
+          </div>  
+      {% endfor %}
+    </div>
 </div>
 
 {% endblock %}
