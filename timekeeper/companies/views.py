@@ -22,37 +22,30 @@ path = Path(__file__).parent / "testfile.txt"
 def admin_company_list(request):
    
     region = 'us-east-1'
-    table ="timekeeper_clients"
+    table_name ="timekeeper_clients"
     dynamo_db_clients = list ()
     
-    '''
+    
     #   create a dictionary to pass all of the arguments
-    table_args = {'region':region,'table_name': region}
+    table_args = {'region':region,'table_name': table_name}
     
     dynamo_client = DynamoDB()
     client_list_resp = dynamo_client.get_items_A_to_Z(table_args)
     
-    ############################################
-    #   PRINT TO TEXT FILE
-    ############################################
-    
-    makeitastring = ''.join(map(str, client_list_resp))
-    with open(path, 'w') as f:
-        f.write(makeitastring)
-
+    print('PRINTING THE RESPONSE FOR THE LIST')
+    print(client_list_resp)
     
     # iterate over the returned client list and extract username and email and Status
     for client in client_list_resp:
         client_record = {
             'eircode':client['eircode'],
             'company_name':client['company_name'],
-            'industry':client['industry']
+            'industry': client['industry']
         }
+        dynamo_db_clients.append(client_record)
     
-    dynamo_db_clients.append(client_record)
-    '''
     args = {
-        'heading':'Client Listing' ,#'dynamo_db_clients':dynamo_db_clients
+        'heading':'Client Listing' ,'dynamo_db_clients':dynamo_db_clients
     }
     return render(request,'companies/admin_company_list.html',args)
 
@@ -70,10 +63,10 @@ def admin_company_add(request):
         #   Check if the form contents is valid
         if form.is_valid():
             company_name = request.POST['company_name']
-            industry  =request.POST['industry']
-            eircode  =request.POST['eircode']
+            industry  = request.POST['industry']
+            eircode  = request.POST['eircode']
             
-            item = {'company_name': company_name,'industry':industry,'eircode':eircode}
+            item = {'company_name': company_name,'industry':industry,'eircode': eircode}
             
             #   upload CLIENT to DYNAMO DB via use of a class
             dynamo_client = DynamoDB()
@@ -163,16 +156,26 @@ class DynamoDB:
         
     #   RETRIEVE A LIST OF ITEMS FROM A DYNAMO DB TABLE
     def get_items_A_to_Z(self,table_args):
+        region = table_args['region']
+        table_name = table_args['table_name']
+        
+        print('in get_items_A_to_Z')
+        print('region is '+region)
+        print('table name is '+table_name)
+
+        
+        
         try:
-            dynamodb_resource = boto3.resource("dynamodb", region_name=table_args['region'])
-            table = dynamodb_resource.Table(table_args['table_name'])
+            dynamodb_resource = boto3.resource("dynamodb", region_name=region)
+            table = dynamodb_resource.Table(table_name)
             
             response = table.scan(
-                TableName=table_args['table_name'],
+                TableName=table_name,
                 Select='ALL_ATTRIBUTES'
 		    )
             return(response['Items'])
+            
         except ClientError as e:
             logging.error(e)
-        
+            return([{'error': 'list empty'}])
         
