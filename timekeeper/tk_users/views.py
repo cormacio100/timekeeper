@@ -15,16 +15,22 @@ from datetime import date
 import logging
 import boto3 
 
+############################################################################
 # Welcome page for teh application
+############################################################################
 def index(request):
     return render(request,'index.html')
 
+############################################################################
 #   GENERAL User Landing page
+############################################################################
 def general_user(request):
     args = {'heading' : 'General User Task'}
     return render(request,'general_user.html',args)
-    
+
+############################################################################    
 #   UPLOAD EXPENSES RELATED TO SPECIFIC CLIENT
+############################################################################
 def general_user_upload_expenses(request):
     args = {'heading' : 'Upload Expenses'}
     dynamo_db_clients = list ()
@@ -33,6 +39,7 @@ def general_user_upload_expenses(request):
     #   Retrieve the list of clients from Dynamo DB
     ######################################################
     region = 'us-east-1'
+   
     dynamo_client = DynamoDBDemo()
     table_name="timekeeper_clients"
     client_list_resp = dynamo_client.get_items_A_to_Z(region, table_name)
@@ -51,20 +58,63 @@ def general_user_upload_expenses(request):
     
     args.update({'dynamo_db_clients':dynamo_db_clients})
     
+    #########################################################
     #   Check if the form was submitted
     #   If yes then upload the file locally first
     #   then to S3
+    #########################################################
     if request.method == 'POST' and request.FILES['myfile']:
 
         company_name = request.POST['company_name']
 
         myfile = request.FILES['myfile']
         fs = FileSystemStorage()
-        filename = fs.save(company_name.replace(" ", "_")+'__'+myfile.name.replace(" ", "_"), myfile)
-        uploaded_file_url = fs.url(filename)
-        
-        print('uploaded file url: '+uploaded_file_url)
-        #return render(request,'general_user.html',args)
+        try:
+            file_name = fs.save(company_name.replace(" ", "_")+'__'+myfile.name.replace(" ", "_"), myfile)
+            uploaded_file_url = fs.url(file_name)
+            print('FILENAME IS : '+file_name)
+            print('uploaded file url: '+uploaded_file_url)
+       
+            #########################################################
+            #   UPLOAD the file to an S3 bucket
+            #########################################################
+            """
+            Upload a file to an S3 bucket
+
+            :param file_name: File to upload
+            :param bucket: Bucket to upload to
+            :param key: S3 object key. If not specified then file_name is used
+            :return: True if file was uploaded, else False
+            """
+            import os 
+            
+             # use file_name as S3 key
+            
+            object_key = file_name
+                
+            save_path = '/home/ec2-user/environment/CPP_PROJECT/timekeeper/media/'
+            complete_name = os.path.join(save_path, object_key)
+            
+            print('\t Uploading to S3 Bucket from '+complete_name)
+            
+            # Upload the file
+            s3_client = boto3.client('s3')
+            try:
+                bucket='timekeeperuploadbucket'
+                #response = s3_client.upload_file(file_name, bucket, object_key)
+                response = s3_client.upload_file(complete_name, bucket, object_key)
+                '''
+                # an example of using the ExtraArgs optional parameter to set the ACL (access control list) value 'public-read' to the S3 object
+                response = s3_client.upload_file(file_name, bucket, key, 
+                    ExtraArgs={'ACL': 'public-read'})
+                '''
+                
+            except ClientError as e:
+                logging.error(e)
+                
+        except ClientError as e:
+            logging.error(e)
+
         return render(
             request, 
             'general_user_upload_expenses.html',
@@ -75,16 +125,16 @@ def general_user_upload_expenses(request):
         return render(request, 'general_user_upload_expenses.html',args)   
  
     
-   # args = {'heading' : 'Upload Expenses'}
-#    return render(request,'general_user_upload_expenses.html',args)
-    
-    
+############################################################################   
 #   ADMIN User Landing page
+############################################################################
 def admin_user(request):
     args = {'heading' : 'Admin Task'}
     return render(request,'admin_user.html',args)
-   
+  
+############################################################################ 
 #   LISTING PAGE FOR COGNITO USERS
+############################################################################
 def admin_cognito_user_list(request):
     cognito_users = list ()
     user_id = 0
@@ -115,8 +165,9 @@ def admin_cognito_user_list(request):
     args = {'heading':'Cognito Users','cognito_users': cognito_users}
     return render(request,'cognito_user/admin_cognito_user_list.html',args)
     
-    
+############################################################################    
 #   FUNCTION Creates A Cognito User based on values entered in a form  
+############################################################################
 def admin_cognito_user_add(request):
     
     #   Check if the request comes from the Congito Add User Form
@@ -151,12 +202,18 @@ def admin_cognito_user_add(request):
         return render(request,'cognito_user/admin_cognito_user_add.html',args)
 
 
+############################################################################
+#   CLASSES SECTION
+############################################################################ 
+
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     DynamoDB CLASS USED FOR INTERACTING WITH COGNITO
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 class DynamoDBDemo:
     
-    
+    ############################################################################
+    #   Create a Table in DYNAMO DB
+    ############################################################################
     def create_table(self, table_name, key_schema, attribute_definitions, provisioned_throughput, region):
         
         try:
@@ -172,7 +229,9 @@ class DynamoDBDemo:
             return False
         return True
 
-
+    ############################################################################
+    #   Store an item to Dynamo DB table
+    ############################################################################
     def store_an_item(self, region, table_name, item):
         try:
             dynamodb_resource = boto3.resource("dynamodb", region_name=region)
@@ -184,8 +243,9 @@ class DynamoDBDemo:
             return False
         return True
         
-        
-     
+    ############################################################################
+    #   retrieve an item from Dynamo DB table
+    ############################################################################        
     def get_an_item(self,region, table_name, key):
         try:
             dynamodb_resource = boto3.resource("dynamodb", region_name=region)
@@ -199,7 +259,9 @@ class DynamoDBDemo:
             return False
         return True
             
-            
+    ############################################################################
+    #   retrieve all items from Dynamo DB table
+    ############################################################################            
     def get_items_A_to_Z(self,region, table_name):
         try:
             dynamodb_resource = boto3.resource("dynamodb", region_name=region)
@@ -210,22 +272,19 @@ class DynamoDBDemo:
                 Select='ALL_ATTRIBUTES'
 		    )
             
-            
         except ClientError as e:
             logging.error(e)
         
         return response['Items']
         
  
-
-
-
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     COGNITO CLASS USED FOR INTERACTING WITH COGNITO
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 class Cognito:
-    
+    ############################################################################ 
     #   List all the users on Cognito
+    ############################################################################ 
     def list_users(self,args):
         client = boto3.client('cognito-idp', region_name=args['region'])
     
@@ -238,8 +297,9 @@ class Cognito:
 
         return(response)
         
-        
+    ############################################################################   
     #   CREATE a new user on Cognito    
+    ############################################################################ 
     def sign_up_user(self,args):
         client = boto3.client('cognito-idp', region_name=args['region'])
         
@@ -259,7 +319,9 @@ class Cognito:
         )
         return(response)
         
-        
+    ############################################################################ 
+    #   CONFIRM A USER ON COGNITO
+    ############################################################################ 
     def confirm_user(self,region):
         client = boto3.client('cognito-idp', region_name=region)
         
