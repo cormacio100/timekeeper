@@ -7,6 +7,8 @@ from .forms import AddCognitoUserForm
 from django.http import HttpResponseRedirect
 from django.conf import settings
 from django.shortcuts import redirect
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
 
 import logging
 import boto3 
@@ -21,8 +23,21 @@ def general_user(request):
     return render(request,'general_user.html',args)
     
 def general_user_upload_expenses(request):
-    args = {'heading' : 'Upload Expenses'}
-    return render(request,'general_user_upload_expenses.html',args)
+    
+    if request.method == 'POST' and request.FILES['myfile']:
+        myfile = request.FILES['myfile']
+        fs = FileSystemStorage()
+        filename = fs.save(myfile.name, myfile)
+        uploaded_file_url = fs.url(filename)
+        #return render(request,'general_user.html',args)
+        return render(request, 'general_user_upload_expenses.html', {
+            'uploaded_file_url': uploaded_file_url
+        })
+    return render(request, 'general_user_upload_expenses.html')   
+ 
+    
+   # args = {'heading' : 'Upload Expenses'}
+#    return render(request,'general_user_upload_expenses.html',args)
     
     
 #   ADMIN User Landing page
