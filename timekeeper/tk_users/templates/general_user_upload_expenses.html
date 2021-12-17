@@ -13,14 +13,17 @@
     <div id="COGNITO-data" class="card-deck row">
         <form method="POST" action="{% url 'tk_users:general_user_upload_expenses' %}" enctype="multipart/form-data" action>
           {% csrf_token %}
+          <select id="company_name" name="company_name">
+            {% for dynamo_db_client in dynamo_db_clients %}
+              <option value="{{dynamo_db_client.company_name}}">{{dynamo_db_client.company_name}}</option>>
+            {% endfor %}
+          </select>
           <input type="file" name="myfile">
           <button id="uploadbutton" type="submit">Upload</button>
         </form>
-      
         {% if uploaded_file_url %}
           <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
         {% endif %}
-
     </div>
 
 {% endblock %}

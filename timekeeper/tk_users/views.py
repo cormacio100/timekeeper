@@ -9,6 +9,8 @@ from django.conf import settings
 from django.shortcuts import redirect
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
+from botocore.exceptions import ClientError
+from datetime import date
 
 import logging
 import boto3 
@@ -22,18 +24,55 @@ def general_user(request):
     args = {'heading' : 'General User Task'}
     return render(request,'general_user.html',args)
     
+#   UPLOAD EXPENSES RELATED TO SPECIFIC CLIENT
 def general_user_upload_expenses(request):
+    args = {'heading' : 'Upload Expenses'}
+    dynamo_db_clients = list ()
     
+    ######################################################
+    #   Retrieve the list of clients from Dynamo DB
+    ######################################################
+    region = 'us-east-1'
+    dynamo_client = DynamoDBDemo()
+    table_name="timekeeper_clients"
+    client_list_resp = dynamo_client.get_items_A_to_Z(region, table_name)
+    
+    print('PRINTING THE RESPONSE FOR THE LIST')
+    print(client_list_resp)
+    
+    # iterate over the returned client list and extract username and email and Status
+    for client in client_list_resp:
+        client_record = {
+            'eircode':client['eircode'],
+            'company_name':client['company_name'],
+            'industry': client['industry']
+        }
+        dynamo_db_clients.append(client_record)
+    
+    args.update({'dynamo_db_clients':dynamo_db_clients})
+    
+    #   Check if the form was submitted
+    #   If yes then upload the file locally first
+    #   then to S3
     if request.method == 'POST' and request.FILES['myfile']:
+
+        company_name = request.POST['company_name']
+
         myfile = request.FILES['myfile']
         fs = FileSystemStorage()
-        filename = fs.save(myfile.name, myfile)
+        filename = fs.save(company_name.replace(" ", "_")+'__'+myfile.name.replace(" ", "_"), myfile)
         uploaded_file_url = fs.url(filename)
+        
+        print('uploaded file url: '+uploaded_file_url)
         #return render(request,'general_user.html',args)
-        return render(request, 'general_user_upload_expenses.html', {
-            'uploaded_file_url': uploaded_file_url
-        })
-    return render(request, 'general_user_upload_expenses.html')   
+        return render(
+            request, 
+            'general_user_upload_expenses.html',
+            args, 
+            {'uploaded_file_url': uploaded_file_url}
+        )
+    else:
+        return render(request, 'general_user_upload_expenses.html',args)   
  
     
    # args = {'heading' : 'Upload Expenses'}
@@ -110,6 +149,74 @@ def admin_cognito_user_add(request):
         args.update(csrf(request))
 
         return render(request,'cognito_user/admin_cognito_user_add.html',args)
+
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    DynamoDB CLASS USED FOR INTERACTING WITH COGNITO
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+class DynamoDBDemo:
+    
+    
+    def create_table(self, table_name, key_schema, attribute_definitions, provisioned_throughput, region):
+        
+        try:
+            dynamodb_resource = boto3.resource("dynamodb", region_name=region)
+            self.table = dynamodb_resource.create_table(TableName=table_name, KeySchema=key_schema, AttributeDefinitions=attribute_definitions,
+                ProvisionedThroughput=provisioned_throughput)
+
+            # Wait until the table exists.
+            self.table.meta.client.get_waiter('table_exists').wait(TableName=table_name)
+            
+        except ClientError as e:
+            logging.error(e)
+            return False
+        return True
+
+
+    def store_an_item(self, region, table_name, item):
+        try:
+            dynamodb_resource = boto3.resource("dynamodb", region_name=region)
+            table = dynamodb_resource.Table(table_name)
+            table.put_item(Item=item)
+        
+        except ClientError as e:
+            logging.error(e)
+            return False
+        return True
+        
+        
+     
+    def get_an_item(self,region, table_name, key):
+        try:
+            dynamodb_resource = boto3.resource("dynamodb", region_name=region)
+            table = dynamodb_resource.Table(table_name)
+            response = table.get_item(Key=key)
+            item = response['Item']
+            print(item)
+        
+        except ClientError as e:
+            logging.error(e)
+            return False
+        return True
+            
+            
+    def get_items_A_to_Z(self,region, table_name):
+        try:
+            dynamodb_resource = boto3.resource("dynamodb", region_name=region)
+            table = dynamodb_resource.Table(table_name)
+            
+            response = table.scan(
+                TableName=table_name,
+                Select='ALL_ATTRIBUTES'
+		    )
+            
+            
+        except ClientError as e:
+            logging.error(e)
+        
+        return response['Items']
+        
+ 
 
 
 
