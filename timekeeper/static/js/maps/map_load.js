@@ -120,6 +120,10 @@ function re_center(map,selectedCounty){
 
 // Set the map sented depending on the Lat & Lng received
 function populate_lat_lng(newCenter){
+  console.log('loading lat and lng');
+  console.log(newCenter);
+  console.log(newCenter['lat']);
+  console.log(newCenter['lng']);
   $('#id_lat').val(newCenter['lat']).prop("readonly", true);
   $('#id_lng').val(newCenter['lng']).prop("readonly", true);  ;
 }
@@ -195,6 +199,7 @@ function init_expenses_map(){
         zoom: 7,
         center: myCenter,
     });
+    
     
     ////////////////////////////////////////////////////////////////////////////
     //  Detect when the user has changed the Client Select menu and retrieve
