@@ -61,6 +61,7 @@ def general_user_upload_expenses(request):
         dynamo_db_clients.append(client_record)
     
     args.update({'dynamo_db_clients':dynamo_db_clients})
+    args.update({'message':''})
     
     #########################################################
     #   Check if the form was submitted
@@ -119,11 +120,16 @@ def general_user_upload_expenses(request):
                     ExtraArgs={'ACL': 'public-read'})
                 '''
                 
+                args.update({'message':'**Upload Successful**'})
+                
             except ClientError as e:
                 logging.error(e)
+                args.update({'message':'**Upload UnSuccessful**'})
                 
         except ClientError as e:
             logging.error(e)
+            args.update({'message':'**Upload UnSuccessful**'})
+
 
         return render(
             request, 

@@ -5,7 +5,6 @@ let map;
 let markers = [];
 let marker
 
-
 function re_center(map,selectedCounty){
   var newCenter = myCenter;
   
@@ -153,8 +152,6 @@ function add_marker(location,map){
         populate_lat_lng(event.latLng);
       });
 }
-
-
 
 // adds all markers in the marker array to the map
 function set_map_on_all(map){
