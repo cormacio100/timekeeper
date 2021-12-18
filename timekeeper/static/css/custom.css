@@ -4,6 +4,14 @@
 /* GLOBAL STYLING */
 /* FONTS */
 /************************************************************************/
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+
 body,
 .community-name,
 .publisher-nav-color{

@@ -1,5 +1,11 @@
 {% extends "base.html" %} 
-{% block title %} Home Page {% endblock %}
+{% load staticfiles %}
+{% block scripts_top %}
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  		<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+  		<link rel="stylesheet" href="{% static "css/companies/mapstyle.css" %}">
+{% endblock %}
+{% block title %} Add a Client {% endblock %}
 {% load bootstrap_tags %}
 {% block content %}
 
@@ -10,18 +16,17 @@
     </div>
     <a href="{% url 'tk_users:admin_user' %}">Go Back</a>
     <hr>
-    <div id="COGNITO-data" class="card-deck row">
-      <div class="container">
-        <form action="{% url 'companies:admin_company_add' %}" method="POST">
-          {% csrf_token %}
-          {{ form }}
-          <hr>
-          <div class="form-group">
-              <button type="submit" class="btn btn-orange btn-block">Create</button>
-          </div>
-        </form>
-      </div>
-    </div>
+    <div id="map"></div>
 </div>
-
 {% endblock %}
+
+{% block scripts_bottom %}
+
+
+      <script src="{% static "js/companies/prepare_map.js" %}"></script>
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0w1cO3ZEMdCW4n6GczBMRxiP92a7lhjA&callback=prepare_map&v=weekly" async></script>
+  
+
+  
+{% endblock %}
+    
