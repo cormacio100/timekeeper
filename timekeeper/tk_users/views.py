@@ -41,7 +41,7 @@ def general_user_upload_expenses(request):
     region = 'us-east-1'
    
     dynamo_client = DynamoDBDemo()
-    table_name="timekeeper_clients"
+    table_name="timekeeper_client_list"
     client_list_resp = dynamo_client.get_items_A_to_Z(region, table_name)
     
     print('PRINTING THE RESPONSE FOR THE LIST')
@@ -50,10 +50,14 @@ def general_user_upload_expenses(request):
     # iterate over the returned client list and extract username and email and Status
     for client in client_list_resp:
         client_record = {
-            'eircode':client['eircode'],
+            #'eircode':client['eircode'],
             'company_name':client['company_name'],
-            'industry': client['industry']
+            'industry': client['industry'],
+            'county': client['county'],
+            'lat': client['lat'],
+            'lng': client['lng'],
         }
+        
         dynamo_db_clients.append(client_record)
     
     args.update({'dynamo_db_clients':dynamo_db_clients})
@@ -66,10 +70,12 @@ def general_user_upload_expenses(request):
     if request.method == 'POST' and request.FILES['myfile']:
 
         company_name = request.POST['company_name']
+        expense_type = request.POST['expense_type']
 
         myfile = request.FILES['myfile']
         fs = FileSystemStorage()
         try:
+            #   Save the file locally
             file_name = fs.save(company_name.replace(" ", "_")+'__'+myfile.name.replace(" ", "_"), myfile)
             uploaded_file_url = fs.url(file_name)
             print('FILENAME IS : '+file_name)
@@ -97,7 +103,7 @@ def general_user_upload_expenses(request):
             
             print('\t Uploading to S3 Bucket from '+complete_name)
             
-            # Upload the file
+            # Upload the file to S3
             s3_client = boto3.client('s3')
             try:
                 bucket='timekeeperuploadbucket'
