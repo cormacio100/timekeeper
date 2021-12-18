@@ -84,18 +84,8 @@ def general_user_upload_expenses(request):
             #########################################################
             #   UPLOAD the file to an S3 bucket
             #########################################################
-            """
-            Upload a file to an S3 bucket
-
-            :param file_name: File to upload
-            :param bucket: Bucket to upload to
-            :param key: S3 object key. If not specified then file_name is used
-            :return: True if file was uploaded, else False
-            """
             import os 
-            
-             # use file_name as S3 key
-            
+
             object_key = file_name
                 
             save_path = '/home/ec2-user/environment/CPP_PROJECT/timekeeper/media/'
@@ -108,7 +98,19 @@ def general_user_upload_expenses(request):
             try:
                 bucket='timekeeperuploadbucket'
                 #response = s3_client.upload_file(file_name, bucket, object_key)
-                response = s3_client.upload_file(complete_name, bucket, object_key)
+                
+                if('travel'==expense_type):
+                    #response = s3_client.upload_file(complete_name, bucket, object_key)
+                    #upload_file('/tmp/' + filename, '<bucket-name>', 'folder/{}'.format(filename))
+                    response = s3_client.upload_file(complete_name, bucket, 'travel/{}'.format(file_name))
+                elif('food'==expense_type):
+                    response = s3_client.upload_file(complete_name, bucket, 'food/{}'.format(file_name))
+                elif('accomodation'==expense_type):
+                    response = s3_client.upload_file(complete_name, bucket, 'accomodation/{}'.format(file_name))
+                elif('equipment'==expense_type):
+                    response = s3_client.upload_file(complete_name, bucket, 'equipment/{}'.format(file_name))
+                else: 
+                    response = s3_client.upload_file(complete_name, bucket, object_key)
                 '''
                 # an example of using the ExtraArgs optional parameter to set the ACL (access control list) value 'public-read' to the S3 object
                 response = s3_client.upload_file(file_name, bucket, key, 
