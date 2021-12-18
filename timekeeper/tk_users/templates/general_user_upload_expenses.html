@@ -27,7 +27,7 @@
               <select id="company_name" name="company_name" class="form-control">
                   <option value="">--SELECT--</option> 
                 {% for dynamo_db_client in dynamo_db_clients %}
-                  <option value="{{dynamo_db_client.company_name}}__{{dynamo_db_client.lat}}__{{dynamo_db_client.lng}}">{{dynamo_db_client.company_name}}</option>>
+                  <option value="{{dynamo_db_client.company_name}}__{{dynamo_db_client.county}}__{{dynamo_db_client.lat}}__{{dynamo_db_client.lng}}">{{dynamo_db_client.company_name}}</option>>
                 {% endfor %}
               </select>
               <label for="expense_type">Expense Type: </label>

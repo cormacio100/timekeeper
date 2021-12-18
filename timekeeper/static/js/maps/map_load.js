@@ -184,6 +184,7 @@ function delete_markers(){
 /////////////////////////////////////////////////////////////////////////
 
 function init_expenses_map(){
+    var selected_county = "";
     var selected_client = "";
     var selected_client_arr = [];
     //var lat = 0.0
@@ -195,27 +196,37 @@ function init_expenses_map(){
         center: myCenter,
     });
     
-    // Detect whn the user has changed the Client Select menu
-
+    ////////////////////////////////////////////////////////////////////////////
+    //  Detect when the user has changed the Client Select menu and retrieve
+    //  details sp
+    ////////////////////////////////////////////////////////////////////////////
     $('#company_name').change(function(){
      
         selected_client = $(this).find("option:selected").attr('value');
         console.log('selected_client:'+selected_client);
-        //////////////////////////////////////////////
+        
+        ///////////////////////////////////////////////////
         //  split the selected_client string into an array
         //  as it contains the lat and lng for the map
-        //////////////////////////////////////////////
+        //////////////////////////////////////////////////
         selected_client_arr = selected_client.split("__");
-        for(var i=0; i< selected_client_arr.length; i++) {
-            console.log(selected_client_arr[i]);
-        }
-        newCenter['lat'] = parseFloat(selected_client_arr[1]);
-        newCenter['lng'] = parseFloat(selected_client_arr[2]);
+        //for(var i=0; i< selected_client_arr.length; i++) {
+        //    console.log(selected_client_arr[i]);
+        //}
+        selected_county = selected_client_arr[1];
+        newCenter['lat'] = parseFloat(selected_client_arr[2]);
+        newCenter['lng'] = parseFloat(selected_client_arr[3]);
         
-        
-        
+        console.log('selected_county: '+selected_county);
         console.log('lat: '+newCenter['lat']);
-        console.log('lng: '+ newCenter['lng'] );
+        console.log('lng: '+ newCenter['lng']);
+        ///////////////////////////////////////////////////
+        //  Based on the client selected
+        //  -   Recenter the map
+        //  -   Add a Map Marker
+        //  -   Populate the read only fields of the form
+        ///////////////////////////////////////////////////
+        re_center(map,selected_county);
         add_marker(newCenter,map);
         populate_lat_lng(newCenter);
     });
