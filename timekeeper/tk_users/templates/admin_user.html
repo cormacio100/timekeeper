@@ -1,7 +1,11 @@
 {% extends "admin_base.html" %} 
+{% load staticfiles %}
+{% block scripts_top %}
+  <link rel="stylesheet" href="{% static "css/admin/custom.css" %}">
+{% endblock %}
 
 {% block admin_content %}
-<div class="list-group">
+<div class="list-group .centre">
   <a href="{% url 'tk_users:admin_cognito_user_list' %}" class="list-group-item list-group-item-action">Cognito Users <i class="fa fa-user-circle fa-align-center" aria-hidden="true"></i></a>
   <a href="{% url 'companies:admin_company_list' %}" class="list-group-item list-group-item-action">Clients <i class="fa fa-address-card fa-align-center" aria-hidden="true"></i></a>
 </div>

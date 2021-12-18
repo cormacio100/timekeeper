@@ -19,19 +19,18 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-6 col-md-6 col-xs-12 margin-top-1">
-            <form id="clientForm" action="{% url 'companies:admin_company_add' %}" method="POST">
+            <form id="client_form" action="{% url 'companies:admin_company_add' %}" method="POST">
               {% csrf_token %}
               {{ form }}
               <hr>
-              Lat: <input type="text" id="lat" readonly>
-    		      Lng: <input type="text" id="lng" readonly>
-    		      <hr>
               <div class="form-group">
                   <button type="submit" class="btn btn-orange btn-block">Create</button>
               </div>
             </form>
           </div>
           <div class="col-lg-6 col-md-6 col-xs-12 margin-top-1">
+            <p>**Click on map or drag marker to Client Location</p>
+            <hr>
             <div id="map"></div>
           </div>
         </div>

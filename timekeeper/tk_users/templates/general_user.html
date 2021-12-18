@@ -1,5 +1,9 @@
 {% extends "base.html" %} 
-{% block title %} Home Page {% endblock %}
+{% load staticfiles %}
+{% block scripts_top %}
+  <link rel="stylesheet" href="{% static "css/admin/custom.css" %}">
+{% endblock %}
+{% block title %} General User Page {% endblock %}
 
 {% block content %}
     <div class="container">
@@ -9,7 +13,7 @@
     &nbsp;
     <hr>
     <div class="general_user_container">
-        <div class="list-group">
+        <div class="list-group .centre">
           <a href="{% url 'tk_users:general_user_upload_expenses' %}" class="list-group-item list-group-item-action">Upload Expenses &nbsp; <i class="fa fa-car fa-align-center" aria-hidden="true"></i> <i class="fa fa-subway fa-align-center" aria-hidden="true"></i> <i class="fa fa-plane fa-align-center" aria-hidden="true"></i> <i class="fa fa-cutlery" aria-hidden="true"></i></a>
         </div>
     </div>

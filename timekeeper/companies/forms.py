@@ -67,14 +67,36 @@ class AddCompanyForm(forms.Form):
         ('Wicklow','Wicklow')
     )
     
-    company_name = forms.CharField(label='Company Name ', max_length=100)
-    industry  = forms.CharField(
-        label = 'Industry Type ',
-        widget = forms.Select(choices=INDUSTRY_TYPE)
+    company_name = forms.CharField(
+        label='Company Name ', 
+        max_length=100,
+        widget=forms.TextInput(attrs={'class':'form-control'})
     )
     county = forms.CharField(
         label = 'County ',
-        widget = forms.Select(choices=COUNTIES)
+        widget = forms.Select(choices=COUNTIES, attrs={'class':'form-control'})
+    )
+    industry  = forms.CharField(
+        label = 'Industry Type ',
+        widget = forms.Select(choices=INDUSTRY_TYPE, attrs={'class':'form-control'})
+    )
+
+    lat = forms.CharField(
+        label='Lat', 
+        max_length=100,
+        widget=forms.TextInput(attrs={'class':'form-control'})
+    )
+    lng = forms.CharField(
+        label='Lng', 
+        max_length=100,
+        widget=forms.TextInput(attrs={'class':'form-control'})
     )
     
-    eircode = forms.CharField(label='Eircode ', max_length=20)
+    '''
+    eircode = forms.CharField(
+        label='Eircode ', 
+        max_length=20,
+        widget=forms.TextInput(attrs={'class':'form-control'})
+        
+    )
+    '''

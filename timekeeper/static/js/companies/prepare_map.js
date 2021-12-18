@@ -148,11 +148,19 @@ function re_center(map,selectedCounty){
   
   map.setCenter(newCenter);
 	map.setZoom(9);
+	
+  add_marker(newCenter,map);
+  //$('#lat').val(newCenter['lat'])  ;
+  //$('#lng').val(newCenter['lng'])  ;
+  populate_lat_lng(newCenter);
   
 }
 
 
-
+function populate_lat_lng(newCenter){
+  $('#id_lat').val(newCenter['lat']).prop("readonly", true);
+  $('#id_lng').val(newCenter['lng']).prop("readonly", true);  ;
+}
 
 
 // ADD MARKER to the map at the clicked location  and push to the array
@@ -172,13 +180,15 @@ function add_marker(location,map){
       console.log(pos);
       
       marker.addListener('drag',function(event) {
-        $('#lat').val(event.latLng.lat());
-        $('#lng').val(event.latLng.lng());
+        populate_lat_lng(event.latLng);
+        //$('#lat').val(event.latLng.lat());
+        //$('#lng').val(event.latLng.lng());
       });
       
       marker.addListener('dragend',function(event) {
-        $('#lat').val(event.latLng.lat())  ;
-        $('#lng').val(event.latLng.lng())  ;
+        populate_lat_lng(event.latLng);
+        //$('#lat').val(event.latLng.lat())  ;
+        //$('#lng').val(event.latLng.lng())  ;
       });
 
 }
@@ -215,10 +225,17 @@ function delete_markers(){
 /* function to initialise and load the map to the page */
 function init_map(){
     
+    /**
+     * Load the initial map with marker set to first County in menu ---Antrim
+     */ 
     map = new google.maps.Map(document.getElementById("map"), {
         zoom: 7,
         center: myCenter,
     });
+    
+    add_marker(antrimCenter,map);
+    populate_lat_lng(antrimCenter);
+
     
     /**
      *  Event Listener calls addMarker when the map is clicked
@@ -226,8 +243,9 @@ function init_map(){
      */ 
     google.maps.event.addListener(map,"click",(event) => {
         add_marker(event.latLng, map);
-        $('#lat').val(event.latLng.lat())  ;
-        $('#lng').val(event.latLng.lng())  ;
+        populate_lat_lng(event.latLng);
+        //$('#lat').val(event.latLng.lat())  ;
+        //$('#lng').val(event.latLng.lng())  ;
     });
     
     
@@ -239,24 +257,6 @@ function init_map(){
         re_center(map,selectedCounty);
     });
 
-    
-
-    /*
-    var myCenter=new google.maps.LatLng(53.423596, -7.934211);
-    
-    	// create an object for map properties
-	var mapProp={
-		center: myCenter,
-		zoom:7,
-		mapTypeId:google.maps.MapTypeId.ROADMAP
-	};
-	
-	// create new google Maps object and pass in the location for where it will be displayed 
-	// as well as the properties
-	global_map = new google.maps.Map(document.getElementById("map"),mapProp);	
-	
-	console.log("map loaded...");
-	*/
 }
 
 

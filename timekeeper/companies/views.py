@@ -22,7 +22,8 @@ path = Path(__file__).parent / "testfile.txt"
 def admin_company_list(request):
    
     region = 'us-east-1'
-    table_name ="timekeeper_clients"
+    #table_name ="timekeeper_clients"
+    table_name ="timekeeper_client_list"
     dynamo_db_clients = list ()
     
     
@@ -38,9 +39,12 @@ def admin_company_list(request):
     # iterate over the returned client list and extract username and email and Status
     for client in client_list_resp:
         client_record = {
-            'eircode':client['eircode'],
+            #'eircode':client['eircode'],
             'company_name':client['company_name'],
-            'industry': client['industry']
+            'industry': client['industry'],
+            'county': client['county'],
+            'lat': client['lat'],
+            'lng': client['lng'],
         }
         dynamo_db_clients.append(client_record)
     
@@ -54,6 +58,7 @@ def admin_company_list(request):
 ##################################################################################
 def admin_company_add(request):
     region = 'us-east-1'
+    table_name="timekeeper_client_list"
     
     #   CHECK IF THE FORM WAS SUBMITTED
     #   If so, then read in the contents of the form
@@ -64,13 +69,25 @@ def admin_company_add(request):
         if form.is_valid():
             company_name = request.POST['company_name']
             industry  = request.POST['industry']
-            eircode  = request.POST['eircode']
+            #eircode  = request.POST['eircode']
+            county = request.POST['county']
+            lat = request.POST['lat']
+            lng = request.POST['lng']
             
-            item = {'company_name': company_name,'industry':industry,'eircode': eircode}
+            item = {
+                'company_name': company_name,
+                'industry':industry,
+                #'eircode': eircode,
+                'county': county,
+                'lat': lat,
+                'lng': lng
+            }
+            print('form submitted')
+            print(item)
             
             #   upload CLIENT to DYNAMO DB via use of a class
             dynamo_client = DynamoDB()
-            table_name="timekeeper_clients"
+            
             #item = {
            #     "company_name": company_name,
            #     "industry" : industry,
@@ -88,6 +105,8 @@ def admin_company_add(request):
                 return redirect(reverse('companies:admin_company_list'))
             else:
                 return redirect(reverse('companies:admin_company_add_error'))
+                
+            
     else:        
         
         #   If the page was just browsed to
@@ -102,7 +121,7 @@ def admin_company_add(request):
 ##################################################################################
 def admin_company_add_error(request):
     args = {'heading' : 'Upload Error'}
-    return render(request,'cognito_user/admin_cognito_user_error.html',args)      
+    return render(request,'companies/admin_company_add_error.html',args)      
 
 
 
