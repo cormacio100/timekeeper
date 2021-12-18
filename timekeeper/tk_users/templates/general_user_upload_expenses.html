@@ -1,5 +1,12 @@
 {% extends "base.html" %} 
-{% load static %}
+{% load staticfiles %}
+{% block scripts_top %}
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  		<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+  		<link rel="stylesheet" href="{% static "css/maps/mapstyle.css" %}">
+{% endblock %}
+
+
 {% block title %} Home Page {% endblock %}
 
 {% block content %}
@@ -18,8 +25,9 @@
               {% csrf_token %}
               <label for="company_name">Client: </label>
               <select id="company_name" name="company_name" class="form-control">
+                  <option value="">--SELECT--</option> 
                 {% for dynamo_db_client in dynamo_db_clients %}
-                  <option value="{{dynamo_db_client.company_name}}">{{dynamo_db_client.company_name}}</option>>
+                  <option value="{{dynamo_db_client.company_name}}__{{dynamo_db_client.lat}}__{{dynamo_db_client.lng}}">{{dynamo_db_client.company_name}}</option>>
                 {% endfor %}
               </select>
               <label for="expense_type">Expense Type: </label>
@@ -31,6 +39,10 @@
               </select>
               <label for="myfile">Receipts: </label>
               <input type="file" name="myfile" class="form-control">
+              <label for="myfile">Latitude: </label>
+              <input type="input" name="id_lat" class="form-control" readonly>
+              <label for="myfile">Longitude: </label>
+              <input type="input" name="id_lng" class="form-control" readonly>
               <hr>
               <div class="form-group">
                 <button id="uploadbutton" type="submit" class="btn btn-orange btn-block">Upload</button>
@@ -38,7 +50,6 @@
             </form>
           </div>
           <div class="col-lg-6 col-md-6 col-xs-12 margin-top-1">
-            <p>**Click on map or drag marker to Client Location</p>
             <hr>
             <div id="map"></div>
           </div>
@@ -48,5 +59,12 @@
         {% endif %}
       </div>
     </div>
+
+{% endblock %}
+{% block scripts_bottom %}
+    <script src="{% static "js/maps/map_constants.js" %}"></script>
+    <script src="{% static "js/maps/map_load.js" %}"></script>
+    <script src="{% static "js/maps/map_prepare_expenses.js" %}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0w1cO3ZEMdCW4n6GczBMRxiP92a7lhjA&callback=map_prepare_expenses&v=weekly" async></script>
 
 {% endblock %}

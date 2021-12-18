@@ -3,7 +3,7 @@
 {% block scripts_top %}
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   		<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-  		<link rel="stylesheet" href="{% static "css/companies/mapstyle.css" %}">
+  		<link rel="stylesheet" href="{% static "css/maps/mapstyle.css" %}">
 {% endblock %}
 {% block title %} Add a Client {% endblock %}
 {% load bootstrap_tags %}
@@ -40,7 +40,10 @@
 {% endblock %}
 
 {% block scripts_bottom %}
-    <script src="{% static "js/companies/prepare_map.js" %}"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0w1cO3ZEMdCW4n6GczBMRxiP92a7lhjA&callback=prepare_map&v=weekly" async></script>
+    <script src="{% static "js/maps/map_constants.js" %}"></script>
+    <script src="{% static "js/maps/map_load.js" %}"></script>
+    <script src="{% static "js/maps/map_prepare_clients.js" %}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0w1cO3ZEMdCW4n6GczBMRxiP92a7lhjA&callback=map_prepare_clients&v=weekly" async></script>
+
 {% endblock %}
     

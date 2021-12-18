@@ -99,6 +99,8 @@ def general_user_upload_expenses(request):
                 bucket='timekeeperuploadbucket'
                 #response = s3_client.upload_file(file_name, bucket, object_key)
                 
+                print('bucket = '+bucket)
+                
                 if('travel'==expense_type):
                     #response = s3_client.upload_file(complete_name, bucket, object_key)
                     #upload_file('/tmp/' + filename, '<bucket-name>', 'folder/{}'.format(filename))
