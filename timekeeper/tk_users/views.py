@@ -11,6 +11,7 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from botocore.exceptions import ClientError
 from datetime import date
+from django.conf import settings
 
 import logging
 import boto3 
@@ -86,10 +87,8 @@ def general_user_upload_expenses(request):
             #   UPLOAD the file to an S3 bucket
             #########################################################
             import os 
-
             object_key = file_name
-                
-            save_path = '/home/ec2-user/environment/CPP_PROJECT/timekeeper/media/'
+            save_path = settings.MEDIA_ROOT
             complete_name = os.path.join(save_path, object_key)
             
             print('\t Uploading to S3 Bucket from '+complete_name)
@@ -98,7 +97,6 @@ def general_user_upload_expenses(request):
             s3_client = boto3.client('s3')
             try:
                 bucket='timekeeperuploadbucket'
-                #response = s3_client.upload_file(file_name, bucket, object_key)
                 
                 print('bucket = '+bucket)
                 
