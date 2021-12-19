@@ -21,8 +21,9 @@ import boto3
 #   https://pypi.org/project/upload-to-s3-folder-pkg/
 #######################################################################
 
+'''
 from upload_to_s3_folder_pkg.upload_to_s3_folder import UploadToS3Folder
-
+'''
 
 
 ############################################################################
@@ -88,8 +89,8 @@ def general_user_upload_expenses(request):
         
         try:
             
-            u = UploadToS3Folder()
-            #u = UploadToS3FolderClass()
+            #u = UploadToS3Folder()
+            u = UploadToS3FolderClass()
             
             file_name_for_upload = u.generate_file_name(company_name,myfile)
             
@@ -238,7 +239,7 @@ def admin_cognito_user_add(request):
     S3 CLASS USED FOR INTERACTING WITH S3
     This will be replaced by PyPi package
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-"""
+
 class UploadToS3FolderClass:
     
     #   generate a filename for upload specific to a client
@@ -272,7 +273,6 @@ class UploadToS3FolderClass:
         
         return response
 
-"""
 
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     DynamoDB CLASS USED FOR INTERACTING WITH COGNITO
