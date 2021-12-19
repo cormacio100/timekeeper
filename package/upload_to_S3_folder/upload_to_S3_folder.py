@@ -36,5 +36,6 @@ class UploadToS3Folder:
         return response
       
 
-        
+if __name__ == '__main__':
+    utsf = UploadToS3Folder()        
         

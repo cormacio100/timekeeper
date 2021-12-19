@@ -16,8 +16,17 @@ from django.conf import settings
 import logging
 import boto3 
 
+#######################################################################
+#   IMPORTING The Package that I have created and distributed to PyPi
+#   https://pypi.org/project/upload-to-s3-folder-pkg/
+#######################################################################
+
+from upload_to_s3_folder_pkg.upload_to_s3_folder import UploadToS3Folder
+
+
+
 ############################################################################
-# Welcome page for teh application
+# Welcome page for the application
 ############################################################################
 def index(request):
     return render(request,'index.html')
@@ -80,6 +89,7 @@ def general_user_upload_expenses(request):
         try:
             
             u = UploadToS3Folder()
+            #u = UploadToS3FolderClass()
             
             file_name_for_upload = u.generate_file_name(company_name,myfile)
             
@@ -228,7 +238,8 @@ def admin_cognito_user_add(request):
     S3 CLASS USED FOR INTERACTING WITH S3
     This will be replaced by PyPi package
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-class UploadToS3Folder:
+"""
+class UploadToS3FolderClass:
     
     #   generate a filename for upload specific to a client
     def generate_file_name(self,company_name,myfile):
@@ -261,7 +272,7 @@ class UploadToS3Folder:
         
         return response
 
-
+"""
 
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     DynamoDB CLASS USED FOR INTERACTING WITH COGNITO
