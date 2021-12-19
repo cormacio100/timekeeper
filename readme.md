@@ -31,5 +31,9 @@
 * six==1.16.0
 * urllib3==1.26.7
 
+## Elastic Beanstalk Deployment
+* Deployed from branch "elb"
+
+
 ### superuser:
     tk_admin / tk_admin
