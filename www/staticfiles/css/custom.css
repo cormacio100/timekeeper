@@ -1,0 +1,417 @@
+
+   
+/************************************************************************/
+/* GLOBAL STYLING */
+/* FONTS */
+/************************************************************************/
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+
+body,
+.community-name,
+.publisher-nav-color{
+    color:#7c6659;
+    font-family: 'Righteous', cursive;
+}
+.center-aligned{
+    text-align: center;
+}
+.centered{
+    margin-left:auto;
+    margin-right:auto;
+}
+.ul-blank ul li{
+    list-style-type: none;
+}
+.transparent{
+
+}
+.margin-top-1{
+    margin-top:1em;
+}
+div.entertainer_bio {
+    text-align: left;
+}
+.orange-links{
+    color:#dd6622;
+    font-family: 'Righteous', cursive;
+}
+.text-centered{
+    text-align:center;
+}
+.img-centered{
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+}
+.navbar-brand{
+    color:#dd6622;
+}
+.navbar-brand:hover{
+    color:#bab4b0;
+}
+nav.navbar-white {
+    border-bottom: 1px solid #bab4b0;
+}
+
+.btn-primary{
+    color:#dd6622;
+}
+.btn-orange-no-hover{
+    font-size: 16px;
+    background: #bab4b0;
+    color: #ffffff;
+    border:1px solid #bb6622;
+}
+.btn-orange-no-hover:hover{
+    color: #dd6622;
+}
+.btn-orange{
+    font-size: 16px;
+    background: #dd6622;
+    color: #ffffff;
+    border:0;
+}
+.btn-orange:hover{
+    background: #bab4b0;
+    box-shadow: 5px 5px 5px #bb6622;
+    text-decoration: none;
+    margin-bottom: 1em;
+}
+.account-form{
+    margin-top:2em;
+    color:#dd6622;
+}
+.legend-centre{
+    text-align: center;
+}
+a{
+    color: #dd6622;
+}
+a:hover{
+    color: #bab4b0;
+    text-decoration: none;
+}
+div#navbarSupportedContent {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    background-color:#ffffff;
+}
+.jumbotron {
+    padding: 2rem 1rem;
+    margin-bottom: 2rem;
+    background-color: #bab4b0;
+    border-radius: .3rem;
+}
+
+/************************************************************************/
+/* TEXT */
+/************************************************************************/
+.grey-text{
+    color:#bab4b0;
+}
+.orange-text{
+    color:#dd6622;
+}
+.white-text{
+    color:#ffffff;
+}
+.brown-text{
+    color:#7c6659;
+}
+.x1-3{
+    font-size: 1.3em;}
+
+/************************************************************************/
+/* LINKS */
+/************************************************************************/
+/*  NAVBAR */
+#navbarDropdown{
+    margin-right:1.5em;
+}
+.navbar-grey{
+    background-color: #f3f3f3;
+    color: #ffffff;
+}
+.navbar-white{
+    background-color: #ffffff;
+
+}
+.navbar-grey-a-href-orange{
+    color: #dd6622;
+}
+.navbar-grey-a-href-orange:hover{
+    color: #bab4b0;
+}
+.nav-link{
+    color:#7c6659;
+}
+.nav-link:hover{
+    color: #dd6622;
+}
+
+/************************************************************************/
+/* BUTTONS */
+/************************************************************************/
+.full_btn {
+    -webkit-border-radius: 28px;
+    -moz-border-radius: 28px;
+    border-radius: 28px;
+    font-family: Arial;
+    color: #ffffff;
+    font-size: 16px;
+    background: #dd6622;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+    margin-bottom: 1em;
+}
+
+.full_btn:hover{
+    box-shadow: 5px 5px 5px #bab4b0;
+    text-decoration: none;
+    margin-bottom: 1em;
+}
+.outline_btn {
+    -webkit-border-radius: 28px;
+    -moz-border-radius: 28px;
+    border-radius: 28px;
+    font-family: Arial;
+    color: #dd6622;
+    font-size: 16px;
+    background: #ffffff;
+    padding: 10px 20px 10px 20px;
+    border: solid #dd6622 2px;
+    text-decoration: none;
+}
+.outline_btn:hover {
+    text-decoration: none;
+    background: #ffffff;
+    padding: 10px 20px 10px 20px;
+    box-shadow: 5px 5px 5px #bb6622;
+}
+
+#pills-profile-tab.active,
+#pills-set-list-tab.active,
+#pills-influences-tab.active,
+#pills-setup-tab.active,
+#pills-contact-tab.active{
+    background-color: #dd6622;
+}
+
+/************************************************************************/
+/* FOOTER */
+/************************************************************************/
+footer{
+    text-align:center;
+    color: #dd6622;
+    padding:2em;
+    margin-top:1em;
+    position:relative;
+    bottom:0;
+    width:100%;
+    height:60px;   /* Height of the footer */
+}
+/************************************************************************/
+/* INDIVIDUAL PAGE */
+/* ENTERTAINER PROFILE */
+/************************************************************************/
+.ent_profile_image{
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    width:200px;
+    height:200px;
+}
+.ent_listing{
+    margin-top:1em;
+}
+#profile_body{
+    xmargin-top:2em;
+}
+.row{
+    margin-bottom:1em;
+}
+div#profile-highlight h2 {
+    color: #7c6659;
+}
+.tabbed{
+    padding-top:1em;
+    border-radius:5px;
+}
+.white-transparent{
+    background-color: rgba(255, 255, 255, 0.7);
+}
+#tbl-like-dislike {
+    margin-left: auto;
+    margin-right: auto;
+}
+td.tbl-like-dislike-td {
+    padding: 0.5em;
+}
+.tab-pane{
+    color: #7c6659;
+}
+.tab-contents {
+    border-radius: 0 5px 5px 5px;
+}
+.col-2.ent-info {
+    text-align: left;
+    padding: 2em;
+}
+#home-tab,
+#reviews-tab,
+#info-tab{
+    background-color:#bab4b0;
+    color:#7c6659;
+}
+#home-tab.active,
+#reviews-tab.active,
+#info-tab.active{
+    background-color:#ffffff;
+    color:#dd6622;
+}
+ul#pills-tab {
+    border-bottom: 1px solid #bab4b0;
+    padding-bottom: 0.5em;
+}
+.top-line{
+    padding-top:1em;
+}
+div#info-tabs {
+    background-color: #ffffff;
+    border-radius: 5px;
+}
+.profile-highlight {
+    padding: 1em;
+    border-radius: 10px;
+}
+div#REST-data {
+    margin-bottom: 3em;
+}
+div#entertainer_bio{
+    text-align:left;
+}
+/************************************************************************/
+/* LISTINGS*/
+/************************************************************************/
+p#spinner{
+    width:100%;
+    text-align:center;
+    font-size: 5em;
+}
+.orange-spin{
+    color:#dd6622;
+}
+/*section#section1*/
+
+.with-background-image1{
+	position:relative;
+	width:100%;
+	text-align:center;
+	background-color:white;
+	background-size: cover;
+	background-position:center;
+	min-height:100%;
+	font-size:14px;
+	padding-top:30px;
+}
+.card{
+    margin-top:1em;
+}
+.card-header{
+    display:flex;
+    justify-content:center;
+    text-align: center;
+}
+.card-body{
+    color:#766659;
+    font-size: smaller;
+}
+.card-img-top{
+    height:140px;
+}
+.card-text{
+    font-size: 0.8em;
+}
+card_attr{
+    text-decoration: underline;
+}
+/**************************************************************************/
+/*  HOME  */
+/**************************************************************************/
+#home-imagery{
+    background-image:url(../../pics/media/backgrounds/6.jpg);
+	position:relative;
+	width:100%;
+	text-align:center;
+	color:white;
+	background-color:white;
+	background-size: cover;
+	background-position:center;
+	min-height:100%;
+	font-size:14px;
+	padding-top:50px;
+}
+/**************************************************************************/
+/*  REGISTRATION */
+/**************************************************************************/
+#register-form{
+    margin-top:3em;
+}
+#register-submit{
+    margin-top:2em;
+}
+/**************************************************************************/
+/*  MESSAGE ALERTS */
+/**************************************************************************/
+.alert-success,
+.alert-danger{
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.7);
+    border: 1px solid #dd6622;
+    color: #dd6622;
+    margin-top: 1em;
+    text-align: center;
+}
+/**************************************************************************/
+/*  HEADINGS */
+/**************************************************************************/
+.page-header{
+    margin-top:1em;
+    color:#FFFFFF;
+}
+.page-header h2{
+    color:#7c6659;
+}
+#listing-menu{
+    border:1px solid #dd6622;
+    padding-top:1em;
+}
+#listing-row{
+    margin:0;
+    padding:0;
+}
+
+/**************************************************************************/
+/*  FILTER MENUS */
+/**************************************************************************/
+.styled-select{
+    background: transparent;
+    border: none;
+    height: 29px;
+    padding: 5px; /* If you add too much padding here, the options won't show in IE */
+    width: 80%;
+    overflow: hidden;
+}
+.semi-square {
+   -webkit-border-radius: 5px;
+   -moz-border-radius: 5px;
+   border-radius: 5px;
+}
+.brown { background-color: #7c6659; color: #fff; }
+.orange{ background-color: #dd6622; color: #fff; }

@@ -25,7 +25,9 @@ SECRET_KEY = '-$sc)p6i$5@)en(a$db#y+sd9h(+)x5d$cz!$p9gsbsd*(gk*5'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['f0f7977c88454eb992f2d014a8cae59f.vfs.cloud9.us-east-1.amazonaws.com']
+#ALLOWED_HOSTS = ['f0f7977c88454eb992f2d014a8cae59f.vfs.cloud9.us-east-1.amazonaws.com']
+ALLOWED_HOSTS = ['*']
+#ALLOWED_HOSTS = ['django-env.eba-fy6wk2bv.us-east-1.elasticbeanstalk.com']
 
 
 # Application definition
@@ -129,12 +131,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
+#STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, '..', 'www', 'staticfiles')
 
-"""
-STATICFILES_DIRS IS FOR OUTPUTS
-It is a set of places to look for static files
-"""
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
