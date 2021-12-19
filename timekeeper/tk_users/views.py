@@ -78,25 +78,35 @@ def general_user_upload_expenses(request):
         fs = FileSystemStorage()
         
         try:
+            
+            u = UploadToS3Folder()
+            
+            file_name_for_upload = u.generate_file_name(company_name,myfile)
+            
             #   Save the file locally
-            file_name = fs.save(company_name.replace(" ", "_")+'__'+myfile.name.replace(" ", "_"), myfile)
+            file_name = fs.save(file_name_for_upload, myfile)
             uploaded_file_url = fs.url(file_name)
 
             #########################################################
             #   UPLOAD the file to an S3 bucket
             #########################################################
-            import os 
+            '''
+            import os       #   package
             object_key = file_name
             save_path = settings.MEDIA_ROOT
             complete_name = os.path.join(save_path, object_key)
             
             print('\t Uploading to S3 Bucket from '+complete_name)
-            
+            '''
             # Upload the file to S3
             s3_client = boto3.client('s3')
             try:
-                bucket='timekeeperuploadbucket'  # bucket to load to
+                #bucket='timekeeperuploadbucket'  # bucket to load to
+                bucket = settings.S3_BUCKET
+                response = u.rename_and_upload_file_to_s3_folder(file_name,bucket,expense_type)
                 
+                
+                '''
                 #   expense type determines the S3 Bucket folder to ssave to
                 if('travel'==expense_type):
                     response = s3_client.upload_file(complete_name, bucket, 'travel/{}'.format(file_name))
@@ -108,7 +118,9 @@ def general_user_upload_expenses(request):
                     response = s3_client.upload_file(complete_name, bucket, 'equipment/{}'.format(file_name))
                 else: 
                     response = s3_client.upload_file(complete_name, bucket, object_key)
+                '''
                 
+                print(response)
                 args.update({'message':'**Upload Successful**'})
                 
             except ClientError as e:
@@ -211,6 +223,45 @@ def admin_cognito_user_add(request):
 ############################################################################
 #   CLASSES SECTION
 ############################################################################ 
+
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    S3 CLASS USED FOR INTERACTING WITH S3
+    This will be replaced by PyPi package
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+class UploadToS3Folder:
+    
+    #   generate a filename for upload specific to a client
+    def generate_file_name(self,company_name,myfile):
+        file_name = company_name.replace(" ", "_")+'__'+myfile.name.replace(" ", "_")
+    
+        return file_name
+
+    #   retrieve the file from local upload and determine which folder it should be saved to
+    def rename_and_upload_file_to_s3_folder(self, file_name, bucket, folder):
+        #fs = FileSystemStorage()
+        import os
+        object_key = file_name
+        save_path = settings.MEDIA_ROOT
+        complete_name = os.path.join(save_path, object_key)
+        print('\t Uploading to S3 Bucket from '+complete_name)
+        # Upload the file to S3
+        s3_client = boto3.client('s3')
+        
+         #   expense type determines the S3 Bucket folder to ssave to
+        if('travel'==folder):
+            response = s3_client.upload_file(complete_name, bucket, 'travel/{}'.format(file_name))
+        elif('food'==folder):
+            response = s3_client.upload_file(complete_name, bucket, 'food/{}'.format(file_name))
+        elif('accomodation'==folder):
+            response = s3_client.upload_file(complete_name, bucket, 'accomodation/{}'.format(file_name))
+        elif('equipment'==folder):
+            response = s3_client.upload_file(complete_name, bucket, 'equipment/{}'.format(file_name))
+        else: 
+            response = s3_client.upload_file(complete_name, bucket, object_key)
+        
+        return response
+
+
 
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
     DynamoDB CLASS USED FOR INTERACTING WITH COGNITO

@@ -25,9 +25,9 @@ SECRET_KEY = '-$sc)p6i$5@)en(a$db#y+sd9h(+)x5d$cz!$p9gsbsd*(gk*5'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-#ALLOWED_HOSTS = ['f0f7977c88454eb992f2d014a8cae59f.vfs.cloud9.us-east-1.amazonaws.com']
-ALLOWED_HOSTS = ['*']
-ALLOWED_HOSTS = ['django-env.eba-fy6wk2bv.us-east-1.elasticbeanstalk.com']
+ALLOWED_HOSTS = ['f0f7977c88454eb992f2d014a8cae59f.vfs.cloud9.us-east-1.amazonaws.com']
+#ALLOWED_HOSTS = ['*']
+#ALLOWED_HOSTS = ['django-env.eba-fy6wk2bv.us-east-1.elasticbeanstalk.com']
 
 # Application definition
 
@@ -151,3 +151,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 PAGE_SIZE = 8
+
+
+S3_BUCKET = 'timekeeperuploadbucket'
