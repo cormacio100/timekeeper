@@ -5,8 +5,19 @@
     <div>
       <h1 class="display-4">{{heading}}</h1>
     </div>
-    <a href="{% url 'tk_users:admin_user' %}">Go Back</a> | <a href="{% url 'companies:admin_company_add' %}">Create Client</a>
-    <hr>
+    <div class="container">
+      <div clas="row">
+        <div class="col-4 margin-top-1">
+          <a href="{% url 'tk_users:admin_user' %}">Go Back</a> | <a href="{% url 'companies:admin_company_add' %}">Create Client</a>
+        </div>  
+        <hr>
+        <div class="col-lg-6 col-md-6 col-xs-6 margin-top-1">Page: 
+              {% for page in page_range %}
+                <a href="{% url 'companies:admin_company_list' %}">{{page}}</a>
+              {% endfor %}
+        </div>
+      </div>
+    </div>
     <div id="COGNITO-data" class="card-deck row">
       {% for dynamo_db_client in dynamo_db_clients %}
           <div class="col-lg-3 col-md-6 col-xs-12 margin-top-1">

@@ -76,13 +76,12 @@ def general_user_upload_expenses(request):
 
         myfile = request.FILES['myfile']
         fs = FileSystemStorage()
+        
         try:
             #   Save the file locally
             file_name = fs.save(company_name.replace(" ", "_")+'__'+myfile.name.replace(" ", "_"), myfile)
             uploaded_file_url = fs.url(file_name)
-            print('FILENAME IS : '+file_name)
-            print('uploaded file url: '+uploaded_file_url)
-       
+
             #########################################################
             #   UPLOAD the file to an S3 bucket
             #########################################################
@@ -96,13 +95,10 @@ def general_user_upload_expenses(request):
             # Upload the file to S3
             s3_client = boto3.client('s3')
             try:
-                bucket='timekeeperuploadbucket'
+                bucket='timekeeperuploadbucket'  # bucket to load to
                 
-                print('bucket = '+bucket)
-                
+                #   expense type determines the S3 Bucket folder to ssave to
                 if('travel'==expense_type):
-                    #response = s3_client.upload_file(complete_name, bucket, object_key)
-                    #upload_file('/tmp/' + filename, '<bucket-name>', 'folder/{}'.format(filename))
                     response = s3_client.upload_file(complete_name, bucket, 'travel/{}'.format(file_name))
                 elif('food'==expense_type):
                     response = s3_client.upload_file(complete_name, bucket, 'food/{}'.format(file_name))
@@ -112,11 +108,6 @@ def general_user_upload_expenses(request):
                     response = s3_client.upload_file(complete_name, bucket, 'equipment/{}'.format(file_name))
                 else: 
                     response = s3_client.upload_file(complete_name, bucket, object_key)
-                '''
-                # an example of using the ExtraArgs optional parameter to set the ACL (access control list) value 'public-read' to the S3 object
-                response = s3_client.upload_file(file_name, bucket, key, 
-                    ExtraArgs={'ACL': 'public-read'})
-                '''
                 
                 args.update({'message':'**Upload Successful**'})
                 
@@ -178,7 +169,8 @@ def admin_cognito_user_list(request):
     #   pass the values to the template
     args = {'heading':'Cognito Users','cognito_users': cognito_users}
     return render(request,'cognito_user/admin_cognito_user_list.html',args)
-    
+
+
 ############################################################################    
 #   FUNCTION Creates A Cognito User based on values entered in a form  
 ############################################################################
@@ -310,6 +302,8 @@ class Cognito:
         )
 
         return(response)
+    
+        
         
     ############################################################################   
     #   CREATE a new user on Cognito    

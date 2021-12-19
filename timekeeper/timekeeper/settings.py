@@ -142,8 +142,10 @@ STATICFILES_DIRS = (
 #STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
-#COGNITOCLIENTID = '2neea3tmqro25ir2ohamglv1be'
-#REGION = 'us-east-1'
+COGNITOCLIENTID = '2neea3tmqro25ir2ohamglv1be'
+REGION = 'us-east-1'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+PAGE_SIZE = 8

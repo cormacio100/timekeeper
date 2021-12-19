@@ -18,7 +18,7 @@ urlpatterns = [
     path('admin_cognito_user_add/', views.admin_cognito_user_add, name="admin_cognito_user_add"),
     #path('admin_cognito_user_error/', views.admin_cognito_user_error, name="admin_cognito_user_error"),
     #path('admin_cl/', views.admin_cognito_user_adding, name="admin_cognito_user_adding"),
-
+    #path('admin_cognito_user_list_paginated/', views.admin_cognito_user_list_paginated, name="admin_cognito_user_list_paginated"),
 ]
 
 

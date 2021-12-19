@@ -5,16 +5,13 @@ from .forms import AddCompanyForm
 import logging
 import boto3
 from botocore.exceptions import ClientError
+from django.core.paginator import Paginator
+from django.conf import settings
 
 from pathlib import Path
 
 path = Path(__file__).parent / "testfile.txt"
 
-# Create your views here.
-
-#def index(request):
- #   '''The home page for Learning Long'''
-  #  return render(request,'companies/index.html')
 
 ##################################################################################
 #   List all of the Clients Stored on Dynamo DB Database
@@ -22,10 +19,8 @@ path = Path(__file__).parent / "testfile.txt"
 def admin_company_list(request):
    
     region = 'us-east-1'
-    #table_name ="timekeeper_clients"
     table_name ="timekeeper_client_list"
     dynamo_db_clients = list ()
-    
     
     #   create a dictionary to pass all of the arguments
     table_args = {'region':region,'table_name': table_name}
@@ -35,6 +30,12 @@ def admin_company_list(request):
     
     print('PRINTING THE RESPONSE FOR THE LIST')
     print(client_list_resp)
+    
+    #////////////////////////////////////////////////////
+    #   for pagination
+    #////////////////////////////////////////////////////
+    p = Paginator(client_list_resp,settings.PAGE_SIZE)
+    page_range = p.page_range
     
     # iterate over the returned client list and extract username and email and Status
     for client in client_list_resp:
@@ -49,9 +50,92 @@ def admin_company_list(request):
         dynamo_db_clients.append(client_record)
     
     args = {
-        'heading':'Client Listing' ,'dynamo_db_clients':dynamo_db_clients
+        'heading':'Client Listing' ,
+        'dynamo_db_clients':dynamo_db_clients,
+        'page_range':page_range
     }
     return render(request,'companies/admin_company_list.html',args)
+
+
+##################################################################################
+#   List all of the Clients Stored on Dynamo DB Database
+#   FOR TESTING
+##################################################################################
+'''
+def admin_company_list_paginated(request):
+   
+   
+    print(request)
+   
+    region = 'us-east-1'
+    #table_name ="timekeeper_clients"
+    table_name ="timekeeper_client_list"
+    dynamo_db_clients = list ()
+    
+    
+    #   create a dictionary to pass all of the arguments
+    table_args = {'region':region,'table_name': table_name}
+    
+    dynamo_client = DynamoDB()
+    
+    #result = dynamo_client.dump_table(table_name,region)
+    
+    #print(result)
+    
+    
+    client_list_resp = dynamo_client.get_items_A_to_Z(table_args)
+    
+    print(client_list_resp)
+    
+    
+    p = Paginator(client_list_resp,settings.PAGE_SIZE)
+    
+    print('data passed to paginator')
+    
+    num_pages = p.count
+    
+    print("number of pages:")
+    print(num_pages)
+    
+    page_range = p.page_range
+    
+    print("page range:")
+    print(num_pages)
+    
+    page_number = p.page(1)
+    
+    print("page 1:")
+    print(page_number)  
+    
+    page_data = page_number.object_list
+    
+    print("page_data:")
+    print(page_data)  
+    
+    #print('PRINTING THE RESPONSE FOR THE LIST')
+    #print(client_list_resp)
+    
+    # iterate over the returned client list and extract username and email and Status
+    for client in page_data:
+        client_record = {
+            #'eircode':client['eircode'],
+            'company_name':client['company_name'],
+            'industry': client['industry'],
+            'county': client['county'],
+            'lat': client['lat'],
+            'lng': client['lng'],
+        }
+        dynamo_db_clients.append(client_record)
+    
+    args = {
+        'heading':'Client Listing' ,
+        'dynamo_db_clients':dynamo_db_clients,
+        'page_range':page_range
+    }
+    return render(request,'companies/admin_company_list.html',args)
+
+'''
+
 
 ##################################################################################
 #   Add a client to Dynamo DB
